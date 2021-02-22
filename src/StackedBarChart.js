@@ -6,12 +6,14 @@ import Chart from 'chart.js'
 
 function StackedBarChart() {
     const canvasRef = useRef()
+    
+    let url = '';
 
     useEffect(() => {
         axios({
             method: 'GET',
             url:
-                'https://nmsvtx50zd.execute-api.ap-northeast-2.amazonaws.com/recruit/order',
+                url,
             params: {
                 start_date_id: '2020-01-01',
                 end_date_id: '2020-12-31',
