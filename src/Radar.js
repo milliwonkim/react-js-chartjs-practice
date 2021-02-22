@@ -23,17 +23,17 @@ export default function Radar() {
                         label: 'Student A',
                         backgroundColor: 'rgba(200,0,0,0.2)',
                         data: [65, 75, 70, 80, 60, 80],
-                        pointRadius: 6,
+                        pointRadius: 10,
                         pointBorderColor: 'transparent',
-                        pointHoverRadius: 10,
+                        pointHoverRadius: 20,
                     },
                     {
                         label: 'Student B',
                         backgroundColor: 'rgba(0,0,200,0.2)',
                         data: [54, 65, 60, 70, 70, 75],
-                        pointRadius: 8,
+                        pointRadius: 10,
                         pointBorderColor: 'transparent',
-                        pointHoverRadius: 10,
+                        pointHoverRadius: 20,
                     },
                 ],
             },
@@ -51,6 +51,7 @@ export default function Radar() {
                     pointLabels: {
                         display: true,
                         fontSize: 20,
+                        fontColor: 'white',
                     },
                 },
                 legend: {
@@ -63,7 +64,7 @@ export default function Radar() {
     return (
         <div>
             <h1>Radar</h1>
-            <canvas ref={canvasRef}></canvas>
+            <canvas width="1000" height="1000" ref={canvasRef}></canvas>
         </div>
     )
 }
