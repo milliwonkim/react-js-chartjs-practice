@@ -3,7 +3,6 @@ import axios from 'axios'
 import * as d3 from 'd3'
 import './App.css'
 import Chart from 'chart.js'
-import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 function StackedBarChart() {
     const canvasRef = useRef()
@@ -20,8 +19,6 @@ function StackedBarChart() {
                 dimensions: 'num_of_user_purchases',
             },
         }).then((d) => {
-            Chart.plugins.register(ChartDataLabels)
-
             let backgroundColor = [
                 '#575fcf',
                 '#00d8d6',
@@ -44,9 +41,6 @@ function StackedBarChart() {
                     data: data,
                     backgroundColor: backgroundColor[i],
                     borderColor: backgroundColor[i],
-                    datalabels: {
-                        color: 'white',
-                    },
                 }
             })
 
@@ -88,17 +82,6 @@ function StackedBarChart() {
                             },
                         ],
                     },
-                    plugins: {
-                        datalabels: {
-                            font: {
-                                weight: 'bold',
-                                size: '6',
-                            },
-                            formatter: function (value, context) {
-                                return shorten(value)
-                            },
-                        },
-                    },
                     legend: { display: true },
                     title: {
                         display: true,
@@ -107,11 +90,24 @@ function StackedBarChart() {
                     tooltips: {
                         callbacks: {
                             label: function (tooltipItem, data) {
+                                console.log('ddddd: ', data)
+                                console.log('tooltipItem', tooltipItem)
+                                console.log(
+                                    '****',
+                                    data['labels'][tooltipItem['index']] +
+                                        ': ' +
+                                        data['datasets'][0]['data'][
+                                            tooltipItem['index']
+                                        ]
+                                )
+
                                 let temp = []
 
                                 data.datasets.map((d) => {
                                     return temp.push(d.label)
                                 })
+
+                                console.log(temp)
 
                                 return (
                                     temp[tooltipItem.datasetIndex] +
@@ -132,7 +128,7 @@ function StackedBarChart() {
             <canvas
                 ref={canvasRef}
                 id="myChart"
-                width="600"
+                width="400"
                 height="600"
             ></canvas>
         </div>
