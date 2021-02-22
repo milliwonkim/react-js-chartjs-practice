@@ -35,6 +35,7 @@ function StackedBarChart() {
             ]
 
             let data = d.data.data.measures[0].map((data, i) => {
+                // console.log('***data***: ', array)
                 return {
                     label: d.data.data.dimensions[i],
                     data: data,
@@ -42,6 +43,16 @@ function StackedBarChart() {
                     borderColor: backgroundColor[i],
                 }
             })
+
+            var shorten = (d) => {
+                if (d === null) {
+                    return 0
+                } else {
+                    return d
+                        .toString()
+                        .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+                }
+            }
 
             let ctx = canvasRef.current.getContext('2d')
             new Chart(ctx, {
@@ -51,6 +62,7 @@ function StackedBarChart() {
                     datasets: data,
                 },
                 options: {
+                    responsive: true,
                     scales: {
                         xAxes: [
                             {
@@ -71,6 +83,40 @@ function StackedBarChart() {
                         ],
                     },
                     legend: { display: true },
+                    title: {
+                        display: true,
+                        text: 'Sales',
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                console.log('ddddd: ', data)
+                                console.log('tooltipItem', tooltipItem)
+                                console.log(
+                                    '****',
+                                    data['labels'][tooltipItem['index']] +
+                                        ': ' +
+                                        data['datasets'][0]['data'][
+                                            tooltipItem['index']
+                                        ]
+                                )
+
+                                let temp = []
+
+                                data.datasets.map((d) => {
+                                    return temp.push(d.label)
+                                })
+
+                                console.log(temp)
+
+                                return (
+                                    temp[tooltipItem.datasetIndex] +
+                                    ': ' +
+                                    shorten(tooltipItem.value)
+                                )
+                            },
+                        },
+                    },
                 },
             })
         })
@@ -83,7 +129,7 @@ function StackedBarChart() {
                 ref={canvasRef}
                 id="myChart"
                 width="400"
-                height="400"
+                height="600"
             ></canvas>
         </div>
     )
